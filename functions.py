@@ -15,11 +15,8 @@ def make_plot(df):
     
 
     # Aktualisiere die y-Achsenbeschriftung
+    fig1.update_layout(yaxis_title='Leistung / W')
     fig1.update_layout(xaxis_title='Zeit / s')
-
-     # Aktualisiere den Namen der ersten Linie (PowerOriginal)
-    fig1.data[0].name = 'Leistung'
-    fig1.data[0].showlegend = True
 
     return fig1
 
