@@ -62,9 +62,14 @@ def calc_maxdurationpower(df):
     df_sorted = unsortdata.sort_values(by= "MaxDuration",ascending = False)
     return unsortdata, df_sorted
 calc_maxdurationpower(df)
+  
 
+# Plotly Liniendiagramm ohne Punkte mit vertauschten Achsen erstellen
+fig = px.line(df_sorted, x="MaxDuration", y="PowerOriginal", markers=False, 
+              labels={"MaxDuration": "Maximale Dauer", "PowerOriginal": "Leistungsniveau"})
 
+fig.update_layout(title="Maximale Dauer pro Leistungsniveau", xaxis_title="Maximale Dauer / s", yaxis_title="Leistung / W")
 
-
+fig.show()
 
 # %%
