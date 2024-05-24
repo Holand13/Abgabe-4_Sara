@@ -10,9 +10,7 @@ df = data[["Time","PowerOriginal"]]
 
 def make_plot(df):
     df_subset = df.head(1803)
-    fig1 = px.line(df_subset, x="Time", y="PowerOriginal", title='Leistungskurve')
-    # Füge die Herzfrequenz als zweite Linie hinzu
-    
+    fig1 = px.line(df_subset, x="Time", y="PowerOriginal", title='Leistung pro Zeit')
 
     # Aktualisiere die y-Achsenbeschriftung
     fig1.update_layout(yaxis_title='Leistung / W')
@@ -44,14 +42,9 @@ def calculate_duration(df, power_level):
 calculate_duration(df, power_level) 
 
 
-
 # %%
-
 def calc_maxdurationpower(df):
-    
     unique_powerlevels = df["PowerOriginal"].unique()
-
-    
     power_duration_list = []
 
     for power_level in unique_powerlevels:
@@ -59,16 +52,18 @@ def calc_maxdurationpower(df):
         power_duration_list.append([power_level, duration])
     
     unsortdata = pd.DataFrame(power_duration_list, columns=["PowerOriginal", "MaxDuration"])
-    df_sorted = unsortdata.sort_values(by= "MaxDuration",ascending = False)
+    df_sorted = unsortdata.sort_values(by="MaxDuration", ascending=False)
     return unsortdata, df_sorted
-calc_maxdurationpower(df)
-  
 
-# Plotly Liniendiagramm ohne Punkte mit vertauschten Achsen erstellen
+calc_maxdurationpower(df) 
+# %%
+unsortdata, df_sorted = calc_maxdurationpower(df)  # Hier beide Rückgabewerte zuweisen
+
+# Liniendiagramm der Leistungskurve erstellen
 fig = px.line(df_sorted, x="MaxDuration", y="PowerOriginal", markers=False, 
               labels={"MaxDuration": "Maximale Dauer", "PowerOriginal": "Leistungsniveau"})
 
-fig.update_layout(title="Maximale Dauer pro Leistungsniveau", xaxis_title="Maximale Dauer / s", yaxis_title="Leistung / W")
+fig.update_layout(title="Leistungskurve", xaxis_title="Maximale Dauer / s", yaxis_title="Leistung / W")
 
 fig.show()
 
