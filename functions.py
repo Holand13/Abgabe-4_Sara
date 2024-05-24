@@ -15,7 +15,6 @@ def make_plot(df):
     
 
     # Aktualisiere die y-Achsenbeschriftung
-    fig1.update_layout(yaxis_title='Messwerte')
     fig1.update_layout(xaxis_title='Zeit / s')
 
      # Aktualisiere den Namen der ersten Linie (PowerOriginal)
@@ -25,7 +24,6 @@ def make_plot(df):
     return fig1
 
 make_plot(df)
-print(data)
 # %%
 
 value = df["PowerOriginal"]
@@ -52,7 +50,7 @@ calculate_duration(df, power_level)
 
 # %%
 
-def calc_maxdurationpower(df,power_level):
+def calc_maxdurationpower(df):
     powerlevel_durations = {}
     
     unique_powerlevels = df["PowerOriginal"]
@@ -80,7 +78,7 @@ def calc_maxdurationpower(df,power_level):
     
     return pd.DataFrame(list(powerlevel_durations.items()), columns=["PowerOriginal", "MaxDuration"])
 
-calc_maxdurationpower(df,power_level)
+calc_maxdurationpower(df)
 
 
 
