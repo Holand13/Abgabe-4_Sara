@@ -29,24 +29,60 @@ print(data)
 # %%
 
 value = df["PowerOriginal"]
-power_level = 180
+power_level = 18
 time = df["Time"]
 
 def calculate_duration(df, power_level):
     durations =[]
-    start = 0
+    start = None
     end = 0
     for index,row in df.iterrows():
         value = row["PowerOriginal"]
         time = row["Time"]
-        if value > power_level:
-            start = time 
-        if value < power_level:
-            end = time 
-        durations.append(end-start)
-    print(durations)
+        if value > power_level and start is None:
+            start = time
+        if value < power_level and start is not None:
+            end = time
+            durations.append(end-start) 
+            start = None
     return max(durations)
-calculate_duration(df, power_level)
+calculate_duration(df, power_level) 
+
+
+
+# %%
+
+def calc_maxdurationpower(df,power_level):
+    powerlevel_durations = {}
+    
+    unique_powerlevels = df["PowerOriginal"]
+    
+    for power_level in unique_powerlevels:
+        durations = []
+        start = 0
+        end = 0
+        
+        for index, row in df.iterrows():
+            value = row["PowerOriginal"]
+            time = row["Time"]
+            if value > power_level and start is None:
+                start = time
+            if value < power_level and start is not None:
+                end = time
+                durations.append(end-start) 
+                start = None
+        
+        if start is not None:
+            durations.append(end - start)
+        
+        max_duration = max(durations) if durations else 0
+        powerlevel_durations[power_level] = max_duration
+    
+    return pd.DataFrame(list(powerlevel_durations.items()), columns=["PowerOriginal", "MaxDuration"])
+
+calc_maxdurationpower(df,power_level)
+
+
 
 
 
