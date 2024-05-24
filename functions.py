@@ -24,11 +24,11 @@ make_plot(df)
 # %%
 
 value = df["PowerOriginal"]
-power_level = 18
+power_level = 110
 time = df["Time"]
 
 def calculate_duration(df, power_level):
-    durations =[]
+    durations = [0]
     start = None
     end = 0
     for index,row in df.iterrows():
@@ -48,33 +48,19 @@ calculate_duration(df, power_level)
 # %%
 
 def calc_maxdurationpower(df):
-    powerlevel_durations = {}
     
-    unique_powerlevels = df["PowerOriginal"]
-    
-    for power_level in unique_powerlevels:
-        durations = []
-        start = 0
-        end = 0
-        
-        for index, row in df.iterrows():
-            value = row["PowerOriginal"]
-            time = row["Time"]
-            if value > power_level and start is None:
-                start = time
-            if value < power_level and start is not None:
-                end = time
-                durations.append(end-start) 
-                start = None
-        
-        if start is not None:
-            durations.append(end - start)
-        
-        max_duration = max(durations) if durations else 0
-        powerlevel_durations[power_level] = max_duration
-    
-    return pd.DataFrame(list(powerlevel_durations.items()), columns=["PowerOriginal", "MaxDuration"])
+    unique_powerlevels = df["PowerOriginal"].unique()
 
+    
+    power_duration_list = []
+
+    for power_level in unique_powerlevels:
+        duration = calculate_duration(df, power_level)
+        power_duration_list.append([power_level, duration])
+    
+    unsortdata = pd.DataFrame(power_duration_list, columns=["PowerOriginal", "MaxDuration"])
+    df_sorted = unsortdata.sort_values(by= "MaxDuration",ascending = False)
+    return unsortdata, df_sorted
 calc_maxdurationpower(df)
 
 
