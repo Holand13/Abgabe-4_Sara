@@ -15,7 +15,6 @@ def make_plot(df):
     # Aktualisiere die y-Achsenbeschriftung
     fig1.update_layout(yaxis_title='Leistung / W')
     fig1.update_layout(xaxis_title='Zeit / s')
-
     return fig1
 
 make_plot(df)
@@ -51,20 +50,19 @@ def calc_maxdurationpower(df):
         duration = calculate_duration(df, power_level)
         power_duration_list.append([power_level, duration])
     
-    unsortdata = pd.DataFrame(power_duration_list, columns=["PowerOriginal", "MaxDuration"])
-    df_sorted = unsortdata.sort_values(by="MaxDuration", ascending=False)
-    return unsortdata, df_sorted
+    sortdata = pd.DataFrame(power_duration_list, columns=["PowerOriginal", "MaxDuration"]).sort_values(by = "MaxDuration", ascending=False)
+    return sortdata
 
 calc_maxdurationpower(df) 
 # %%
-unsortdata, df_sorted = calc_maxdurationpower(df)  # Hier beide Rückgabewerte zuweisen
+sortdata = calc_maxdurationpower(df)  # Hier beide Rückgabewerte zuweisen
 
 # Liniendiagramm der Leistungskurve erstellen
-fig = px.line(df_sorted, x="MaxDuration", y="PowerOriginal", markers=False, 
-              labels={"MaxDuration": "Maximale Dauer", "PowerOriginal": "Leistungsniveau"})
+def make_lineplot(sortdata):
+    df_subset = sortdata.head(1803)
+    fig = px.line(df_subset, x="MaxDuration", y="PowerOriginal", markers=False, 
+                  labels={"MaxDuration": "Maximale Dauer", "PowerOriginal": "Leistungsniveau"})
 
-fig.update_layout(title="Leistungskurve", xaxis_title="Maximale Dauer / s", yaxis_title="Leistung / W")
-
-fig.show()
-
+    fig.update_layout(title="Leistungskurve", xaxis_title="Maximale Dauer / s", yaxis_title="Leistung / W")
+    return fig
 # %%
