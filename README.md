@@ -31,9 +31,17 @@ Diese Funktion berechnet für jedes Leistungsniveau die maximale Dauer und sorti
   - `unsortdata`: Unsortierter DataFrame mit den Spalten "PowerOriginal" und "MaxDuration"
   - `df_sorted`: Nach "MaxDuration" sortierter DataFrame
 
+### `make_lineplot(df_sorted)`
+
+Diese Funktion erstellt ein Liniendiagramm der Leistungskurve, basierend auf den berechneten maximalen Dauern für verschiedene Leistungsniveaus.
+
+- **Eingabe:** DataFrame `df_sorted` mit den Spalten "PowerOriginal" und "MaxDuration"
+- **Ausgabe:** Plotly-Figur
+
+
 ## Voraussetzungen
 
-Erstellen Sie eine virtuelle Umgebung und installieren Sie die benötigten Bibliotheken aus der `requirements.txt`:
+Erstellen und aktivieren Sie eine virtuelle Umgebung mit `python -m venv venv` und `venv\Scripts\activate` und installieren Sie die benötigten Bibliotheken aus der `requirements.txt` mit `pip install -r requirements.txt`.
 
 
 ### Verwendung
@@ -41,8 +49,3 @@ Erstellen Sie eine virtuelle Umgebung und installieren Sie die benötigten Bibli
 Stellen Sie sicher, dass die Datei `activity.csv` im gleichen Verzeichnis wie `functions.py` und `main.py` vorhanden ist.
 Führen Sie das Skript `main.py` mit dem Befehl `streamlit run main.py` aus, um die Analyse durchzuführen und die Plots zu erstellen.
 
-
-```bash
-python -m venv venv
-source `venv\Scripts\activate`
-pip install -r requirements.txt
